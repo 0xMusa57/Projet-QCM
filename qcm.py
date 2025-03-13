@@ -25,3 +25,29 @@
     
     fichier_entry = ttk.Entry(fichier_frame, textvariable=fichier_var, width=50)
     fichier_entry.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
+
+# Ajout des fonctions de sélection de fichier et de génération de QCM
+
+# Fonction pour sélectionner le fichier
+    def selectionner_fichier():
+        """Permet à l'utilisateur de sélectionner un fichier QCM."""
+        fichier = filedialog.askopenfilename(
+            title="Sélectionner un fichier QCM",
+            filetypes=[("Fichiers texte", "*.txt")]
+        )
+        if fichier:
+            fichier_var.set(fichier)
+            
+            # Lire le fichier pour afficher les infos
+            success, message = self.lire_fichier_qcm(fichier)
+            if success:
+                status_var.set(message)
+                messagebox.showinfo("Information", message)
+            else:
+                status_var.set("Erreur: " + message)
+                messagebox.showerror("Erreur", message)
+    
+    fichier_button = ttk.Button(fichier_frame, text="Parcourir...", command=selectionner_fichier)
+    fichier_button.pack(side=tk.LEFT)
+    
+    # Fonction pour générer les QC
